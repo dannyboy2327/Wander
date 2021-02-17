@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
 
@@ -46,6 +47,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
         map.addMarker(MarkerOptions().position(homeLatLng))
         setMapLongClick(map)
+        setPointClick(map)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -89,6 +91,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .snippet(snippet)
             )
 
+        }
+    }
+
+    private fun setPointClick(map: GoogleMap) {
+        map.setOnPoiClickListener { poi ->
+            val poiMarker = map.addMarker(
+                MarkerOptions()
+                    .position(poi.latLng)
+                    .title(poi.name)
+            )
+            poiMarker.showInfoWindow()
         }
     }
 }
